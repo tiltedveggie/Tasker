@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
     "lint": "pnpm run lint:backend && pnpm run lint:frontend",
-    "lint:backend": "cd backend & pnpm run lint",
-    "lint:frontend": "cd frontend & pnpm run lint"
+    "lint:backend": "cd backend && pnpm run lint",
+    "lint:frontend": "cd frontend && pnpm run lint"
   },
   "keywords": [],
   "author": "",
