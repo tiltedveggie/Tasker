@@ -3,6 +3,9 @@ import {
 	Controller,
 	Delete,
 	Get,
+	HttpCode,
+	HttpException,
+	HttpStatus,
 	Param,
 	Patch,
 	Post
@@ -24,29 +27,46 @@ export class TasksController {
 
 	@Get(':id')
 	async findOneTask(@Param('id') id: string) {
-		const singleTask = await this.tasksService.findOneTask(id);
+		try {
+			const singleTask = await this.tasksService.findOneTask(id);
 
-		return singleTask;
+			return singleTask;
+		} catch (err) {
+			throw new HttpException('Task not found!', HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@Post()
 	async createTask(@Body() taskData: CreateTaskDTO) {
-		const newTask = await this.tasksService.createTask(taskData);
+		try {
+			const newTask = await this.tasksService.createTask(taskData);
 
-		return newTask;
+			return newTask;
+		} catch (err) {
+			throw new HttpException('Task already exists!', HttpStatus.CONFLICT);
+		}
 	}
 
 	@Patch(':id')
 	async updateTask(@Param('id') id: string, @Body() taskData: UpdateTaskDTO) {
-		const updatedTask = await this.tasksService.updateTask(id, taskData);
+		try {
+			const updatedTask = await this.tasksService.updateTask(id, taskData);
 
-		return updatedTask;
+			return updatedTask;
+		} catch (err) {
+			throw new HttpException('Task not found!', HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@Delete(':id')
+	@HttpCode(204)
 	async deleteTask(@Param('id') id: string) {
-		const deletedTask = await this.tasksService.deleteTask(id);
+		try {
+			const deletedTask = await this.tasksService.deleteTask(id);
 
-		return deletedTask;
+			return deletedTask;
+		} catch (err) {
+			throw new HttpException('Task not found!', HttpStatus.NOT_FOUND);
+		}
 	}
 }
