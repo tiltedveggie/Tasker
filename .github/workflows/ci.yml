@@ -1,0 +1,38 @@
+name: Install Dependencies
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  checks: write
+  contents: write
+
+jobs:
+  run-linters:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🧲
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 6.0.2
+
+      - name: Install Root Dependencies 🌱
+        run: pnpm install
+
+      - name: Install Backend Dependencies 👩🏽‍💻
+        run: cd backend && pnpm install
+
+      - name: Install Frontend Dependencies 👨🏻‍💻
+        run: cd frontend && pnpm install
+
+      - name: Run Linters 🌀
+        run: pnpm run lint
