@@ -1,7 +1,7 @@
-import { ITask } from '../interfaces/task';
+import { CreateTask } from '../interfaces/task.interface';
 import axios from 'axios';
 
-export const createTaskRequest = async (task: ITask) => {
+export const createTaskRequest = async (task: CreateTask) => {
 	try {
 		const { data } = await axios.post(
 			process.env.REACT_APP_API_URL + '/tasks',
