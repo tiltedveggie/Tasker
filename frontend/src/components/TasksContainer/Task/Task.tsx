@@ -1,7 +1,10 @@
 import React from 'react';
 import { ITask } from '../../../interfaces/task.interface';
+import { useTask } from '../../../hooks/useTasks';
 
 const Task = (props: ITask) => {
+	const { deleteTask } = useTask();
+
 	return (
 		<div>
 			<div>
@@ -10,7 +13,16 @@ const Task = (props: ITask) => {
 			</div>
 			<div>
 				<button>Update</button>
-				<button>Delete</button>
+				<button
+					onClick={() => {
+						if (!window.confirm('Are you sure you want to delete this task?')) {
+							return;
+						}
+
+						deleteTask(props._id);
+					}}>
+					Delete
+				</button>
 			</div>
 		</div>
 	);

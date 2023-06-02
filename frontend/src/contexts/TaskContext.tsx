@@ -1,7 +1,11 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { createContext } from 'react';
 import { CreateTask, ITask } from '../interfaces/task.interface';
-import { createTaskRequest, getTasksRequest } from '../api/api';
+import {
+	createTaskRequest,
+	deleteTaskRequest,
+	getTasksRequest
+} from '../api/api';
 
 // --------------------------------------------------------
 
@@ -11,7 +15,8 @@ interface Props {
 
 interface TaskContextValues {
 	tasks: ITask[];
-	createTask: (task: CreateTask) => void;
+	createTask: (task: CreateTask) => Promise<void>;
+	deleteTask: (id: string) => Promise<void>;
 }
 
 // --------------------------------------------------------
@@ -19,7 +24,9 @@ interface TaskContextValues {
 export const TaskContext = createContext<TaskContextValues>({
 	tasks: [],
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	createTask: () => {}
+	createTask: async () => {},
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	deleteTask: async () => {}
 });
 
 // --------------------------------------------------------
@@ -38,12 +45,20 @@ const TaskProvider: React.FC<Props> = ({ children }) => {
 		setTasks([...tasks, newTask]);
 	};
 
+	const deleteTask = async (id: string) => {
+		const deletedTask = await deleteTaskRequest(id);
+
+		if (deletedTask?.status === 204) {
+			setTasks(tasks.filter(task => task._id !== id));
+		}
+	};
+
 	useEffect(() => {
 		getTasks();
 	}, []);
 
 	return (
-		<TaskContext.Provider value={{ tasks, createTask }}>
+		<TaskContext.Provider value={{ tasks, createTask, deleteTask }}>
 			{children}
 		</TaskContext.Provider>
 	);

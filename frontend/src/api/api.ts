@@ -23,3 +23,15 @@ export const createTaskRequest = async (task: CreateTask) => {
 		console.log(err);
 	}
 };
+
+export const deleteTaskRequest = async (id: string) => {
+	try {
+		const data = await axios.delete(
+			process.env.REACT_APP_API_URL + '/tasks/' + id
+		);
+
+		return data;
+	} catch (err) {
+		console.log(err);
+	}
+};
