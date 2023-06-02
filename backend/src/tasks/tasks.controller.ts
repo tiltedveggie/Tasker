@@ -49,24 +49,22 @@ export class TasksController {
 
 	@Patch(':id')
 	async updateTask(@Param('id') id: string, @Body() taskData: UpdateTaskDTO) {
-		try {
-			const updatedTask = await this.tasksService.updateTask(id, taskData);
+		const updatedTask = await this.tasksService.updateTask(id, taskData);
 
-			return updatedTask;
-		} catch (err) {
+		if (!updatedTask)
 			throw new HttpException('Task not found!', HttpStatus.NOT_FOUND);
-		}
+
+		return updatedTask;
 	}
 
 	@Delete(':id')
 	@HttpCode(204)
 	async deleteTask(@Param('id') id: string) {
-		try {
-			const deletedTask = await this.tasksService.deleteTask(id);
+		const deletedTask = await this.tasksService.deleteTask(id);
 
-			return deletedTask;
-		} catch (err) {
+		if (!deletedTask)
 			throw new HttpException('Task not found!', HttpStatus.NOT_FOUND);
-		}
+
+		return deletedTask;
 	}
 }
