@@ -3,7 +3,7 @@ import { ITask } from '../../../interfaces/task.interface';
 import { useTask } from '../../../hooks/useTasks';
 
 const Task = (props: ITask) => {
-	const { deleteTask } = useTask();
+	const { updateTask, deleteTask } = useTask();
 
 	return (
 		<div>
@@ -12,7 +12,9 @@ const Task = (props: ITask) => {
 				<p>{props.description}</p>
 			</div>
 			<div>
-				<button>Update</button>
+				<button onClick={() => updateTask(props._id, { done: !props.done })}>
+					Update
+				</button>
 				<button
 					onClick={() => {
 						if (!window.confirm('Are you sure you want to delete this task?')) {
@@ -24,6 +26,7 @@ const Task = (props: ITask) => {
 					Delete
 				</button>
 			</div>
+			<div>{props.done ? 'Undone' : 'Done'}</div>
 		</div>
 	);
 };
