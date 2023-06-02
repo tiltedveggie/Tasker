@@ -2,13 +2,16 @@ import React from 'react';
 import TaskForm from './components/TaskForm/TaskForm';
 import './App.css';
 import TasksContainer from './components/TasksContainer/TasksContainer';
+import TaskProvider from './contexts/TaskContext';
 
 function App() {
 	return (
-		<div>
-			<TaskForm />
-			<TasksContainer />
-		</div>
+		<TaskProvider>
+			<div>
+				<TaskForm />
+				<TasksContainer />
+			</div>
+		</TaskProvider>
 	);
 }
 

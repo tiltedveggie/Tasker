@@ -1,11 +1,9 @@
 import React from 'react';
-import { useFetch } from '../../hooks/useFetch';
 import Task from './Task/Task';
+import { useTask } from '../../hooks/useTasks';
 
 const TasksContainer = () => {
-	const { tasks } = useFetch(process.env.REACT_APP_API_URL + '/tasks' || '');
-
-	console.log(tasks);
+	const { tasks } = useTask();
 
 	return (
 		<div>
